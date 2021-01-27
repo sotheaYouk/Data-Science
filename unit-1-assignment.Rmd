@@ -1,0 +1,188 @@
+Exercise 1 
+
+A.1. Calculate the sum of the given expression with a loop 
+```{r}
+total <-0
+for (a in 5:100){
+  sum = a^4+5*a^3
+  total = total + sum
+}
+print(total)
+
+```
+
+A.2. Calculate the sum of the given expression without a loop 
+```{r}
+a<- 5:100
+sum(a^4+5*a^3)
+```
+
+
+B. calculate series Un assuming i = Un-1, and j = Un-2. First, initialized i = U1, j= U2. The statements in the while calculates Un where n starts from 3. 
+```{r}
+i <- 1 
+j <- 2
+n <- i + j
+while(n <41){
+  sum <- i + j 
+  i <- j
+  j <- sum
+  n = n+1
+}
+ print(sum)
+
+```
+
+
+C. Calculate cos x, sin x(taylor)
+```{r}
+library(pracma)
+x <- as.numeric(readline(prompt="Enterthe value of x: "))
+taylor(sin, x, 45)
+taylor(cos, x, 45)
+```
+
+
+D. Create a vector of values of e^x * cos x
+```{r}
+library(pracma)
+vec <- NULL
+for (x in seq(3, 6, by=0.1)){
+  vec <- append(vec, exp(x)*cos(x))
+}
+vec
+```
+
+
+E. Count numbers of x divisible by 2 
+```{r}
+counter <- 0
+for (x in 1:300){
+  if (x%%2 == 0) {counter = counter +1}
+}
+counter
+```
+Exercise 2
+
+Solve the given nearly equations using Gaussian Elimination 
+```{r}
+library(matlib)
+coefficients <- matrix(c(1, 2, 3,
+               2, -1, 2,
+               3,  3, 1), 3, 3, byrow=TRUE)
+results<- c(9, -3, 5)
+answer <- gaussianElimination(coefficients, results)
+cat("The value of x, y and z is: ", round(answer[,4],digits=2))
+
+```
+
+Exercise 3
+
+Use outer function to create the given matrix 
+```{r}
+r <- 0:4
+c <- 0:4
+outer(c, r, "+")
+```
+
+Exercise 4
+
+COVID 19 Cases in South Korea
+a. Data source details 
+- Data Science for COVID-19 (DS4C)
+- DS4C: Data Science for COVID-19 in South Korea
+- https://www.kaggle.com/kimjihoo/coronavirusdataset
+
+```{r}
+library(tidyverse)
+covidCases = read.csv("C:\\Users\\Admin\\Desktop\\archive\\Case.csv", header = TRUE)
+covidCases
+```
+
+
+b. Explain the Unit & Necessity of each variable
+- case_id: the ID of the infection case
+- province: Special City / Metropolitan City / Province(-do)
+- group: TRUE: group infection / FALSE: not group
+- infection_case: the infection case (the name of group or other cases)
+- confirmed: the accumulated number of the confirmed
+- latitude: the latitude of the group (WGS84)
+- longitude: the longitude of the group (WGS84)
+
+c. Find the missing values(rows & columns) and replace them with mean(Tidy Dataset)
+```{r}
+is.na(covidCases)
+## no missing values
+```
+
+
+d. Generate the two new variables(Var1:Mean, Var2: Median from available variable)
+```{r}
+library(dplyr)
+numOfRow <- nrow(covidCases)
+covidCases$mean <- rep(NA, numOfRow)
+covidCases$median <- rep(NA, numOfRow)
+covidCases
+```
+
+e. Rename the two existing variables
+
+```{r}
+covidCases %>%
+rename(
+    newMean = mean,
+    newMedian = median
+    )
+covidCases
+```
+
+f. Create a plot using following instructions (using 7 layers of Grammar of Graphics)
+```{r}
+library(ggplot2)
+## choose "infection_case" as x and "confirmed" as y
+ggplot(covidCases, mapping = aes(x = infection_case, y = confirmed)) + geom_point(size=5, color= "red", alpha = 1/5) + facet_grid(rows = vars(confirmed)) + coord_cartesian() + geom_smooth() + xlab("infection_case") + ylab("comfirmed")
+
+ggtitle("graph")
+ggsave(filename = "D:\\Data Science\\covid_19_dataset.png", units = "cm", width = 25, height = 25)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

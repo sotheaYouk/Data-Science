@@ -1,0 +1,160 @@
+
+
+
+1. Generate 2 matrices
+```{r}
+
+A <- matrix(sample(1:100, 36), 6, 6) 
+B <- matrix(sample(500:600, 36), 6, 6) 
+range(A)
+range(B)
+
+for(i in 1:nrow(A))
+{
+  cat("Max of row", i, "of Matrix A is ", max(A[i, ]), "\n")
+}
+
+for(i in 1:nrow(B))
+{
+  cat("Max of row", i, "of Matrix B is ", max(B[i, ]), "\n")
+}
+
+cat("Diagnol of Matrix A is ", diag(A))
+cat("Diagnol of Matrix B is ", diag(B))
+
+x <- A%*%B
+
+
+
+
+
+```
+
+
+2. Create a table using dataframe/tibble with the following categories(a to f)
+
+```{r}
+first_name <- c("Sothea", 
+                "Leapheng", 
+                "Jenny", 
+                "Nataly", 
+                "Sokheng", 
+                "Dalya", 
+                "Seavpor", 
+                "Kimteng", 
+                "Manich", 
+                "Lynan")
+
+second_name <- c("Youk", 
+                 "Ty", 
+                 "Sun", 
+                 "Chea", 
+                 "Kaing", 
+                 "Daro", 
+                 "Teng", 
+                 "Ley", 
+                 "Hann", 
+                 "thon")
+
+age <- c(10, 13, 16, 18, 78, 96, 56, 56, 32, 45)
+ocupation <- rep(c("Teacher", "Engineer"), 5)
+place <- rep(c("Siem Reap", "Phnom Penh"), 5)
+random_number <- sample(1:10, 10)
+
+
+
+df <- data.frame(First_name = first_name,
+                 Second_name = second_name,
+                 Age = age,
+                 ocupation = ocupation,
+                 Place = place,
+                 Ramdom_number = random_number)
+
+lastCol <- df$Ramdom_number
+sum(lastCol)
+mean(lastCol)
+length(lastCol)
+
+
+```
+
+3. Create a .txt file (Minimum : 150 words) with the latest news (In English) in cambodia from the official news agency’s website
+
+Link to the article: https://asiatimes.com/2021/01/cambodia-at-risk-of-being-last-in-line-for-vaccines/
+
+```{r}
+
+article <- read_lines("C:\\Users\\Admin\\Desktop\\cambodia-vaccines.txt")
+article <-tibble(article)
+word_counts <- text_df %>%
+  unnest_tokens(word, text) %>%
+  count(word, sort = TRUE)
+
+word_counts
+
+# max(word_counts$n)
+  
+most_repeated_word <- filter(word_counts, word_counts$n == max(word_counts$n)) 
+gsub("for", "KIT", article)
+
+ggplot(word_counts, aes(n, word)) +
+  theme(
+    axis.title.x = element_text(main = "Number of Words", size = 10, face = "bold", color = "green", hjust = 0.5, margin = margin(20, 0, 0, 0)),
+    axis.title.y = element_text(main = "List of words", size = 10, face = "bold", color = "yellow", hjust = 0.5, margin = margin(0, 20, 0, 0)),
+    plot.title = element_text(main = "Text Mining Using R", size = 10, face = "bold", color = "blue", hjust = 0.5, margin = margin(0, 0, 25, 0))
+  )
+  
+
+gsave("D:\\Data Science\\dataMining.png", units = "cm", width = 25, height = 25)
+
+
+
+
+```
+
+4. Find the assigned Dataset from the list below and perform the following
+Variables
+- Newspaper: describes news agencies
+- Daily.Circulation..2013: describes the total number of circulation of each news agency in 2013
+- Daily.Circulation..2004: describes the total number of circulation of each news agency in 2004 
+- Change.in.Daily.Circulation..2004.2013: describes the change in criculation between 2004 and 2013 
+
+Why I chose Newspaer and Daily.Circulation..2004: because I wanted to illustrate the circulation of the specified news agencies in the year 2004. From that I could compare the data to 2013 and show the change in circulation between this period.
+
+```{r}
+library("ggplot2")
+library("tidyverse")
+library("RCurl")
+
+pulitzer = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/pulitzer/pulitzer-circulation-data.csv")
+pulitzer
+
+# is.na(pulitzer)
+
+names(pulitzer)
+
+
+ggplot(covidCases, aes(Newspaper, Daily.Circulation..2004)) + 
+  facet_grid(Daily.Circulation..2004 ~ Daily.Circulation..2013)
+  geom_col(color = "orage", fill = "brown")+
+  theme(
+    axis.title.x = element_text(main = "Newspaper", size = 10, face = "bold", color = "green", hjust = 0.5, margin = margin(20, 0, 0, 0)),
+    axis.title.y = element_text(main = "Daily Circulation 2004", size = 10, face = "bold", color = "yellow", hjust = 0.5, margin = margin(0, 20, 0, 0)),
+    plot.title = element_text(main = "Daily News Circulation of News Agencies", size = 10, face = "bold", color = "blue", hjust = 0.5, margin = margin(0, 0, 25, 0))
+  )
+
+ggsave("D:\\Data Science\\graph.png", units = "cm", width = 25, height = 25)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
